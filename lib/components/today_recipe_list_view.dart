@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_widget/models/explore_recipe.dart';
 import 'package:scrollable_widget/models/models.dart';
 
+import 'card1.dart';
+import 'card2.dart';
+import 'card3.dart';
+
 class TodayRecipeListView extends StatelessWidget {
   final List<ExploreRecipe> recipes;
   const TodayRecipeListView({Key? key, required this.recipes})
@@ -27,12 +31,34 @@ class TodayRecipeListView extends StatelessWidget {
           // 7
           Container(
             height: 400,
-            // TODO: Add ListView Here
-            color: Colors.grey,
+            color: Colors.transparent,
+            child: ListView.separated(
+              itemBuilder: ((context, index) {
+                final recipe = recipes[index];
+                return buildCard(recipe);
+              }),
+              separatorBuilder: (context, index) => const SizedBox(
+                width: 16,
+                //TODO burasi hatali olabilir
+              ),
+              itemCount: recipes.length,
+              scrollDirection: Axis.horizontal,
+            ),
           ),
         ],
       ),
     );
   }
-  // TODO: Add buildCard() widget here  }
+
+  Widget buildCard(ExploreRecipe recipe) {
+    if (recipe.cardType == RecipeCardType.card1) {
+      return Card1(recipe: recipe);
+    } else if (recipe.cardType == RecipeCardType.card2) {
+      return Card2(recipe: recipe);
+    } else if (recipe.cardType == RecipeCardType.card3) {
+      return Card3(recipe: recipe);
+    } else {
+      throw Exception('This card doesn\'t exist yet');
+    }
+  }
 }
